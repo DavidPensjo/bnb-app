@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
 import Image from "next/image";
-import { ChevronLeft, Share } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
 
@@ -48,10 +48,10 @@ export default async function ListingPage({
           <h1 className="text-3xl font-semibold">{listing.name}</h1>
           <p className="pt-2 font-semibold">{listing.location}</p>
           <p>{listing.description}</p>
-          <p className="">${listing.pricePerNight} / night</p>
           <p>
             {listing.rooms} rooms • {listing.beds} beds
           </p>
+          <p className="font-bold">${listing.pricePerNight} / night</p>
         </div>
       </div>
     </div>
