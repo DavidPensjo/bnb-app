@@ -2,25 +2,32 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-// MongoDB object updater, since I can't migrate using MongoDB ;_;
 async function updateListings() {
   try {
-    await prisma.listing.updateMany({
-      data: {
-        hasDishwasher: false,
-        hasWifi: false,
-        hasAirConditioning: false,
-        hasPool: false,
-        hasParking: false,
-        hasGym: false,
-        hasWasher: false,
-        hasDryer: false,
-      },
-    });
+    const listings = await prisma.listing.findMany();
 
-    console.log(
-      "All fields have been updated"
-    );
+    for (const listing of listings) {
+      const updates = {};
+
+      if (listing.hasDishwasher === undefined) updates.hasDishwasher = false;
+      if (listing.hasWifi === undefined) updates.hasWifi = false;
+      if (listing.hasAirConditioning === undefined) updates.hasAirConditioning = false;
+      if (listing.hasPool === undefined) updates.hasPool = false;
+      if (listing.hasParking === undefined) updates.hasParking = false;
+      if (listing.hasGym === undefined) updates.hasGym = false;
+      if (listing.hasWasher === undefined) updates.hasWasher = false;
+      if (listing.hasDryer === undefined) updates.hasDryer = false;
+
+      // Update listing only if there are fields to update
+      if (Object.keys(updates).length > 0) {
+        await prisma.listing.update({
+          where: { id: listing.id },
+          data: updates,
+        });
+      }
+    }
+
+    console.log("All fields have been updated as needed.");
   } catch (error) {
     console.error("Error updating listings:", error);
   } finally {

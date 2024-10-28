@@ -1,27 +1,25 @@
 import React from "react";
 import { Listing } from "@prisma/client";
+import ListingImageCarousel from "./ListingImageCarousel";
 import Link from "next/link";
 
 const ListingCard = ({ listing }: { listing: Listing }) => {
   return (
     <li key={listing.id}>
-      <Link className="w-screen flex flex-col items-center" href={`/listings/${listing.id}`} passHref>
+      <Link
+        className="w-screen flex flex-col items-center"
+        href={`/listings/${listing.id}`}
+        passHref
+      >
         <div className="flex flex-col w-screen h-full items-center mt-7">
-          {listing.images && listing.images.length > 0 && (
-            <div className="flex justify-center overflow-hidden rounded-xl w-5/6 aspect-square">
-              {listing.images.map((imageUrl, index) => (
-                <img
-                  key={index}
-                  src={imageUrl}
-                  alt={`${listing.name} image ${index + 1}`}
-                  className="h-full w-full object-cover"
-                />
-              ))}
-            </div>
+          {listing.images && listing.images.length > 0 ? (
+            <ListingImageCarousel images={listing.images} />
+          ) : (
+            <p>No images available</p>
           )}
         </div>
 
-        <div className="w-4/5 mt-1">
+        <div className="w-5/6 mt-1">
           <p className="font-semibold text-xl">{listing.location}</p>
           <div className="flex gap-1">
             {listing.rooms > 1 ? (

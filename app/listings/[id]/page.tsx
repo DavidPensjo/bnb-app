@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import { PrismaClient } from "@prisma/client";
-import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
+import ListingImageCarousel from "@/components/ListingImageCarousel";
+import Amenities from "@/components/Amenities";
+import { Button } from "@/components/ui/button";
 
 const prisma = new PrismaClient();
 
@@ -21,9 +23,9 @@ export default async function ListingPage({
   }
 
   return (
-    <div className="">
+    <div className="flex flex-col min-h-screen justify-between">
       <div className="relative">
-        <div className="absolute top-3 left-3 right-3 flex justify-between">
+        <div className="absolute top-3 left-3 right-3 flex justify-between z-10">
           <Link
             href={`/listings/`}
             className="bg-white rounded-full w-10 h-10 flex justify-center items-center shadow-xl"
@@ -32,16 +34,8 @@ export default async function ListingPage({
           </Link>
           <ShareButton />
         </div>
-        {listing.images.map((imageUrl, index) => (
-          <Image
-            key={index}
-            src={imageUrl}
-            alt={`${listing.name} image ${index + 1}`}
-            className="w-screen"
-            width={300}
-            height={300}
-          />
-        ))}
+
+        <ListingImageCarousel images={listing.images} variant="detailed" />
       </div>
       <div className="flex flex-col w-[90%] p-5">
         <div className="flex flex-col justify-start">
@@ -53,6 +47,20 @@ export default async function ListingPage({
           </p>
           <p className="font-bold">${listing.pricePerNight} / night</p>
         </div>
+      </div>
+
+      <Amenities
+        amenities={{
+          hasWifi: listing.hasWifi,
+          hasAirConditioning: listing.hasAirConditioning,
+          hasPool: listing.hasPool,
+          hasParking: listing.hasParking,
+          hasGym: listing.hasGym,
+          hasWasher: listing.hasWasher,
+        }}
+      />
+      <div className="sticky bottom-0 ">
+        <Button className="w-4/5 py-4">Reserve</Button>
       </div>
     </div>
   );
