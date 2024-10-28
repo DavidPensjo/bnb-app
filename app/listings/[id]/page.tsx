@@ -48,20 +48,24 @@ export default async function ListingPage({
           <p className="font-bold">${listing.pricePerNight} / night</p>
         </div>
       </div>
+      
+        <Amenities
+          amenities={{
+            hasWifi: listing.hasWifi,
+            hasAirConditioning: listing.hasAirConditioning,
+            hasPool: listing.hasPool,
+            hasParking: listing.hasParking,
+            hasGym: listing.hasGym,
+            hasWasher: listing.hasWasher,
+          }}
+        />
 
-      <Amenities
-        amenities={{
-          hasWifi: listing.hasWifi,
-          hasAirConditioning: listing.hasAirConditioning,
-          hasPool: listing.hasPool,
-          hasParking: listing.hasParking,
-          hasGym: listing.hasGym,
-          hasWasher: listing.hasWasher,
-        }}
-      />
-      <div className="sticky bottom-0 ">
+      <Link
+        className="bottom-0 w-screen flex justify-center mb-4"
+        href={`/listings/${listing.id}/booking`}
+      >
         <Button className="w-4/5 py-4">Reserve</Button>
-      </div>
+      </Link>
     </div>
   );
 }

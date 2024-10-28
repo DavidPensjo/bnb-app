@@ -22,21 +22,25 @@ interface AmenitiesProps {
 }
 
 const Amenities: React.FC<AmenitiesProps> = ({ amenities }) => {
+  console.log(amenities);
   const availableAmenities = amenitiesData.filter(
     (amenity) => amenities[amenity.key]
   );
 
   return (
-    <div className="grid grid-cols-2 gap-3 justify-center mt-4 mb-10">
-      {availableAmenities.map((amenity, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-2 border rounded-full shadow-md p-1 pl-3"
-        >
-          <amenity.Icon className="text-gray-600" />
-          <div className="capitalize text-sm font-medium">{amenity.name}</div>
-        </div>
-      ))}
+    <div>
+      <p className="ml-10 mb-4 font-bold">Amenities</p>
+      <div className="grid grid-cols-2 gap-4 justify-center mb-2 mx-10">
+        {availableAmenities.map((amenity, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-2 border rounded-full shadow-md p-1 pl-3"
+          >
+            <amenity.Icon className="text-gray-600" />
+            <div className="capitalize text-sm font-medium">{amenity.name}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
