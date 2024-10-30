@@ -11,7 +11,7 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
         href={`/listings/${listing.id}`}
         passHref
       >
-        <div className="flex flex-col w-screen h-full items-center mt-7">
+        <div className="flex flex-col w-screen h-full items-center mt-7 px-4">
           {listing.images && listing.images.length > 0 ? (
             <ListingImageCarousel images={listing.images} />
           ) : (
@@ -19,8 +19,8 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
           )}
         </div>
 
-        <div className="w-5/6 mt-1">
-          <p className="font-semibold text-xl">{listing.location}</p>
+        <div className="w-5/6">
+          <p className="font-semibold text-base pt-1">{listing.location}</p>
           <div className="flex gap-1">
             {listing.rooms > 1 ? (
               <p>{listing.rooms} bedrooms</p>
@@ -34,9 +34,9 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
               <p>{listing.beds} bed</p>
             )}
           </div>
-          <div className="flex items-baseline mt-1">
-            <p className="text-lg font-semibold">${listing.pricePerNight}</p>
-            <span className="text-base font-semibold">&nbsp;night</span>
+          <div className="flex items-baseline">
+            <p className=" font-semibold">${listing.pricePerNight}</p>
+            <span className="text-base">&nbsp;night</span>
           </div>
         </div>
       </Link>

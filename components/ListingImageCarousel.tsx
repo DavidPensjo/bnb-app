@@ -27,7 +27,7 @@ const ListingImageCarousel: React.FC<ListingImageCarouselProps> = ({
         {images.map((imageUrl, index) => (
           <CarouselItem key={index}>
             <div className={`${
-                    variant === "detailed" ? "" : "p-4"
+                    variant === "detailed" ? "" : ""
                   }`}>
                 <CardContent
                   className={`${
