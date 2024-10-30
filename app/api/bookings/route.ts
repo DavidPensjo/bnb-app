@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 import prisma from "../../../lib/prisma";
 
 export async function POST(request: Request) {
-  // Handle creating a new booking
   const { listingId, userId, checkInDate, checkOutDate } = await request.json();
 
-  // Calculate the total price based on the number of nights
   const listing = await prisma.listing.findUnique({
     where: { id: listingId },
   });
@@ -37,7 +35,6 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  // Fetch all bookings
   const bookings = await prisma.booking.findMany({
     include: {
       listing: true,
@@ -49,7 +46,6 @@ export async function GET() {
 }
 
 export async function DELETE(request: Request) {
-  // Handle deleting a booking
   const { id } = await request.json();
 
   const deletedBooking = await prisma.booking.delete({

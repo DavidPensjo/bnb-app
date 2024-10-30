@@ -5,6 +5,7 @@ import Link from "next/link";
 import ShareButton from "@/components/ShareButton";
 import ListingImageCarousel from "@/components/ListingImageCarousel";
 import Amenities from "@/components/Amenities";
+import ListingBooking from "@/components/ListingBooking";
 import { Button } from "@/components/ui/button";
 
 const prisma = new PrismaClient();
@@ -34,21 +35,20 @@ export default async function ListingPage({
           </Link>
           <ShareButton />
         </div>
-
         <ListingImageCarousel images={listing.images} variant="detailed" />
       </div>
-      <div className="flex flex-col w-[90%] p-5">
+      <div className="flex flex-col w-screen p-5 border-b-2 mb-4">
         <div className="flex flex-col justify-start">
           <h1 className="text-3xl font-semibold">{listing.name}</h1>
-          <p className="pt-2 font-semibold">{listing.location}</p>
-          <p>{listing.description}</p>
-          <p>
-            {listing.rooms} rooms • {listing.beds} beds
-          </p>
-          <p className="font-bold">${listing.pricePerNight} / night</p>
+          <div className="flex items-center pt-2">
+            <p className=" font-semibold">{listing.location}&nbsp;</p>
+            <p>
+              • {listing.rooms} rooms • {listing.beds} beds
+            </p>
+          </div>
         </div>
       </div>
-      
+      <div className="border-b-2 pb-4">
         <Amenities
           amenities={{
             hasWifi: listing.hasWifi,
@@ -59,13 +59,14 @@ export default async function ListingPage({
             hasWasher: listing.hasWasher,
           }}
         />
-
-      <Link
-        className="bottom-0 w-screen flex justify-center mb-4"
-        href={`/listings/${listing.id}/booking`}
-      >
-        <Button className="w-4/5 py-4">Reserve</Button>
-      </Link>
+      </div>
+      <div className="w-screen flex mt-4 mb-6 flex-col items-center">
+        <ListingBooking
+          listingId={listing.id}
+          pricePerNight={listing.pricePerNight}
+          location={listing.location}
+        />
+      </div>
     </div>
   );
 }

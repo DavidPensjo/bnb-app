@@ -23,7 +23,7 @@ const ShareButton = () => {
         onClick={handleShareClick}
         className="bg-white rounded-full w-10 h-10 flex justify-center items-center shadow-xl cursor-pointer"
       >
-        <Share size={24} />
+        <Share size={20} />
       </div>
     </>
   );

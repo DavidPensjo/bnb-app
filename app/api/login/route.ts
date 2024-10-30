@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 export async function POST(request: Request) {
   const { email, password } = await request.json();
 
-  // Find user by email
   const user = await prisma.user.findUnique({
     where: { email },
   });
@@ -15,16 +14,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
 
-  // Check if password is correct
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
-  // Generate JWT
   const token = jwt.sign(
     { userId: user.id, isAdmin: user.isAdmin },
-    process.env.JWT_SECRET || 'your_secret_key', // Use an environment variable for secret
+    process.env.JWT_SECRET || 'your_secret_key',
     { expiresIn: '1h' }
   );
 

@@ -20,7 +20,7 @@ const ListingImageCarousel: React.FC<ListingImageCarouselProps> = ({
   return (
     <Carousel
       className={`w-full ${
-        variant === "detailed" ? "aspect-video" : "aspect-square"
+        variant === "detailed" ? "aspect-[10/7]" : "aspect-square w-[95%]"
       }`}
     >
       <CarouselContent>
@@ -31,14 +31,14 @@ const ListingImageCarousel: React.FC<ListingImageCarouselProps> = ({
                   }`}>
                 <CardContent
                   className={`${
-                    variant === "detailed" ? "aspect-video p-0" : "aspect-square p-0"
+                    variant === "detailed" ? "aspect-[10/7] p-0" : "aspect-square p-0"
                   }`}
                 >
                   <img
                     src={imageUrl}
                     alt={`Listing image ${index + 1}`}
                     className={`h-full w-full object-cover ${
-                      variant === "detailed" ? "" : "rounded-2xl"
+                      variant === "detailed" ? "" : "rounded-xl"
                     }`}
                   />
                 </CardContent>

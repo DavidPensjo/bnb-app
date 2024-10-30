@@ -4,7 +4,6 @@ import prisma from '../../../../lib/prisma';
 export async function PATCH(request: Request) {
   const { bookingId, status } = await request.json();
 
-  // Update the booking status
   const updatedBooking = await prisma.booking.update({
     where: { id: bookingId },
     data: {

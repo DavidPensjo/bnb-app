@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-// POST: Create a new listing
 export async function POST(request: Request) {
   try {
     const {
@@ -70,7 +69,6 @@ export async function POST(request: Request) {
   }
 }
 
-// GET: Retrieve all listings
 export async function GET() {
   try {
     const listings = await prisma.listing.findMany();
@@ -84,7 +82,6 @@ export async function GET() {
   }
 }
 
-// PUT: Update an existing listing
 export async function PUT(request: Request) {
   try {
     const { id, ...updateData } = await request.json();
@@ -111,7 +108,6 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE: Delete a listing
 export async function DELETE(request: Request) {
   try {
     const { id } = await request.json();
