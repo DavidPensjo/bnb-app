@@ -35,6 +35,7 @@ export default async function OwnerBookingsPage() {
       listing: {
         select: {
           name: true,
+          location: true,
         },
       },
       user: {
@@ -48,7 +49,9 @@ export default async function OwnerBookingsPage() {
 
   return (
     <div>
-      <h1>Pending Bookings for Your Listings</h1>
+      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl mb-8 mx-6 mt-6">
+        Pending Bookings
+      </h1>
       {bookings.map((booking) => (
         <BookingItem key={booking.id} booking={booking} />
       ))}
