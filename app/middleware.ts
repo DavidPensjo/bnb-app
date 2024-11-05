@@ -1,24 +1,19 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { verifyToken } from "@/lib/auth"; // Ensure this is your JWT verify function or import it as needed.
+import { NextRequest } from "next/server";
+import { verifyToken } from "@/lib/auth";
 
 export function middleware(request: NextRequest) {
-  const token = request.cookies.get("auth_token");
+  const token = request.cookies.get("auth_token")?.value;
 
-  if (!token || !verifyToken(token.value)) {
-    // Redirect to login if the user is unauthenticated and trying to access a protected page.
-    if (
-      request.nextUrl.pathname.startsWith("/listings") ||
-      request.nextUrl.pathname.startsWith("/bookings")
-    ) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
+  if (!token || !verifyToken(token)) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
 }
 
-// Apply middleware to all routes that require authentication.
 export const config = {
-  matcher: ["/listings/:path*", "/bookings/:path*"],
+  matcher: ["/bookings/:path*", "/listings/:path*/bookings"],
 };

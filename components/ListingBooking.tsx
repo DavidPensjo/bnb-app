@@ -66,7 +66,11 @@ const ListingBooking: React.FC<ListingBookingProps> = ({
             )}
           </div>
           <div className="">
-            <ReserveButton listingId={listingId} dates={dates} />
+            <ReserveButton
+              listingId={listingId}
+              dates={dates}
+              nights={nights}
+            />{" "}
           </div>
         </div>
       </div>

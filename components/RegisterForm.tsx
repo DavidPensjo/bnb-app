@@ -19,8 +19,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const handleRegister = async () => {
     try {
       await registerUser({ email, password, name });
-      setIsAuthenticated(true); // Update state to show logged-in status
-      closeDialog(); // Close the dialog or drawer
+      setIsAuthenticated(true);
+      closeDialog();
     } catch (error) {
       console.error("Registration error:", error);
     }

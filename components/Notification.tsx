@@ -15,7 +15,6 @@ const Notification: React.FC<NotificationProps> = ({
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    // Hide the notification after the specified duration
     const timer = setTimeout(() => {
       setVisible(false);
     }, duration);
@@ -30,7 +29,7 @@ const Notification: React.FC<NotificationProps> = ({
           key="notification"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 100 }} // Adding opacity to exit for smoother fade-out
+          exit={{ opacity: 0, y: 100 }}
           transition={{
             type: "spring",
             stiffness: 300,

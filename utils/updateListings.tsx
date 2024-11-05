@@ -2,6 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
+// Scuffed script to update listings with missing fields
+
 async function updateListings() {
   try {
     const listings = await prisma.listing.findMany();
@@ -18,7 +20,6 @@ async function updateListings() {
       if (listing.hasWasher === undefined) updates.hasWasher = false;
       if (listing.hasDryer === undefined) updates.hasDryer = false;
 
-      // Update listing only if there are fields to update
       if (Object.keys(updates).length > 0) {
         await prisma.listing.update({
           where: { id: listing.id },

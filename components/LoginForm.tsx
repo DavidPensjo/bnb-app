@@ -18,8 +18,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const handleLogin = async () => {
     try {
       await loginUser({ email, password });
-      setIsAuthenticated(true); // Update state to show logged-in status
-      closeDialog(); // Close the dialog or drawer
+      setIsAuthenticated(true);
+      closeDialog();
     } catch (error) {
       console.error("Login error:", error);
     }
