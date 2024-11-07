@@ -11,6 +11,7 @@ export async function POST(request: Request) {
   if (!listing) {
     return NextResponse.json({ error: "Listing not found" }, { status: 404 });
   }
+
   const nights =
     (new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) /
     (1000 * 60 * 60 * 24);
@@ -21,12 +22,8 @@ export async function POST(request: Request) {
       checkInDate,
       checkOutDate,
       totalPrice,
-      createdBy: {
-        connect: { id: userId },
-      },
-      listing: {
-        connect: { id: listingId },
-      },
+      userId, // Set userId directly
+      listingId, // Set listingId directly
       createdAt: new Date(),
     },
   });
@@ -35,14 +32,22 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
-  const bookings = await prisma.booking.findMany({
-    include: {
-      listing: true,
-      createdBy: true,
-    },
-  });
+  try {
+    const bookings = await prisma.booking.findMany({
+      include: {
+        listing: true,
+        user: true,
+      },
+    });
 
-  return NextResponse.json(bookings);
+    return NextResponse.json(bookings, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    return NextResponse.json(
+      { error: "An error occurred while fetching bookings" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function DELETE(request: Request) {
