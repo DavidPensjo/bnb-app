@@ -1,9 +1,24 @@
 import { PrismaClient } from "@prisma/client";
 import BookingDetails from "@/components/BookingDetails";
+import { NextPageContext } from "next";
 
 const prisma = new PrismaClient();
 
-export default async function BookingPage({ params, searchParams }) {
+interface BookingPageProps {
+  params: {
+    id: string;
+  };
+  searchParams: {
+    startDate: string;
+    endDate: string;
+    nights: string;
+  };
+}
+
+export default async function BookingPage({
+  params,
+  searchParams,
+}: BookingPageProps) {
   const { id } = params;
   const { startDate, endDate, nights } = searchParams;
 
@@ -22,9 +37,9 @@ export default async function BookingPage({ params, searchParams }) {
   return (
     <BookingDetails
       listing={listing}
-      startDate={startDate}
-      endDate={endDate}
-      nights={nights}
+      startDate={new Date(startDate)}
+      endDate={new Date(endDate)}
+      nights={parseInt(nights, 10)}
     />
   );
 }
