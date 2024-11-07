@@ -19,6 +19,7 @@ import LoginForm from "@/components/LoginForm";
 import RegisterForm from "@/components/RegisterForm";
 import { logoutUser } from "@/app/auth/actions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LoginButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -69,12 +70,12 @@ const LoginButton = () => {
         <div className="absolute right-0 top-12 bg-white border rounded-lg shadow-lg p-4 z-20">
           {isAuthenticated ? (
             <>
-              <a href="/listings" className="block py-1">
+              <Link href="/my-listings" className="block py-1">
                 Listings
-              </a>
-              <a href="/bookings" className="block py-1">
+              </Link>
+              <Link href="/bookings" className="block py-1">
                 Bookings
-              </a>
+              </Link>
               <button onClick={handleLogout}>Logout</button>
             </>
           ) : (

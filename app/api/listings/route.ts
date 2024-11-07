@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/auth";
+import { JwtPayload } from "jsonwebtoken";
+
+async function getAuthenticatedUserId() {
+  const token = cookies().get("auth_token")?.value;
+  if (!token) throw new Error("Not authenticated");
+
+  const decoded = verifyToken(token) as JwtPayload | null;
+  if (!decoded || !decoded.userId) throw new Error("Invalid or expired token");
+
+  return decoded.userId;
+}
 
 export async function POST(request: Request) {
   try {
+    const userId = await getAuthenticatedUserId();
     const {
       name,
       description,
@@ -20,7 +34,6 @@ export async function POST(request: Request) {
       hasGym,
       hasWasher,
       hasDryer,
-      userId,
     } = await request.json();
 
     if (
@@ -28,8 +41,7 @@ export async function POST(request: Request) {
       !location ||
       !pricePerNight ||
       rooms === undefined ||
-      beds === undefined ||
-      !userId
+      beds === undefined
     ) {
       return NextResponse.json(
         { error: "Missing required fields" },
@@ -84,6 +96,7 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
+    const userId = await getAuthenticatedUserId();
     const { id, ...updateData } = await request.json();
 
     if (!id) {
@@ -92,6 +105,12 @@ export async function PUT(request: Request) {
         { status: 400 }
       );
     }
+
+    const existingListing = await prisma.listing.findUnique({ where: { id } });
+    if (!existingListing)
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    if (existingListing.userId !== userId)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
     const updatedListing = await prisma.listing.update({
       where: { id },
@@ -110,6 +129,7 @@ export async function PUT(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const userId = await getAuthenticatedUserId();
     const { id } = await request.json();
 
     if (!id) {
@@ -118,6 +138,12 @@ export async function DELETE(request: Request) {
         { status: 400 }
       );
     }
+
+    const existingListing = await prisma.listing.findUnique({ where: { id } });
+    if (!existingListing)
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    if (existingListing.userId !== userId)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
 
     const deletedListing = await prisma.listing.delete({
       where: { id },
