@@ -5,22 +5,31 @@ import ListingCard from "@/components/ListingCard";
 
 export default function ListingsList() {
   const [listings, setListings] = useState<Listing[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchListings = async () => {
-      const response = await fetch("/api/listings");
-      const data: Listing[] = await response.json();
+    const fetchUserAndListings = async () => {
+      // Fetch user data
+      const userResponse = await fetch("/api/auth/user");
+      if (userResponse.ok) {
+        const userData = await userResponse.json();
+        setUserId(userData.id); // Assuming the user ID is `id`
+      }
+
+      // Fetch listings
+      const listingsResponse = await fetch("/api/listings");
+      const data: Listing[] = await listingsResponse.json();
       setListings(data);
     };
 
-    fetchListings();
+    fetchUserAndListings();
   }, []);
 
   return (
     <div>
       <ul>
         {listings.map((listing) => (
-          <ListingCard key={listing.id} listing={listing} />
+          <ListingCard key={listing.id} listing={listing} userId={userId} />
         ))}
       </ul>
     </div>

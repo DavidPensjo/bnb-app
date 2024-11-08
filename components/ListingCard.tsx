@@ -2,10 +2,18 @@ import React from "react";
 import { Listing } from "@prisma/client";
 import ListingImageCarousel from "./ListingImageCarousel";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-const ListingCard = ({ listing }: { listing: Listing }) => {
+interface ListingCardProps {
+  listing: Listing;
+  userId: string | null;
+}
+
+const ListingCard: React.FC<ListingCardProps> = ({ listing, userId }) => {
+  const isOwner = userId === listing.userId;
+
   return (
-    <li key={listing.id}>
+    <li className="list-none" key={listing.id}>
       <Link
         className="w-screen flex flex-col items-center"
         href={`/listings/${listing.id}`}
@@ -35,11 +43,20 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
             )}
           </div>
           <div className="flex items-baseline">
-            <p className=" font-semibold">${listing.pricePerNight}</p>
+            <p className="font-semibold">${listing.pricePerNight}</p>
             <span className="text-base">&nbsp;night</span>
           </div>
         </div>
       </Link>
+      {isOwner && (
+        <Button
+          variant="outline"
+          className="mt-4"
+          onClick={() => console.log("Edit listing", listing.id)}
+        >
+          Edit Listing
+        </Button>
+      )}
     </li>
   );
 };

@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { CalendarDays, MapPin, Star, Users } from "lucide-react";
+import { CalendarDays, MapPin, Star, Users, ArrowRight, Home } from "lucide-react";
 import Link from "next/link";
 
 export default function VacationRentalsLanding() {
@@ -39,6 +39,31 @@ export default function VacationRentalsLanding() {
                 </form>
               </div>
             </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+          <div className="container px-4 md:px-6">
+            <Card className="bg-white shadow-lg">
+              <CardContent className="flex flex-col md:flex-row items-center justify-between p-6 md:p-12">
+                <div className="mb-6 md:mb-0 md:mr-6">
+                  <h2 className="text-3xl font-bold tracking-tight mb-2">
+                    Explore All Our Listings
+                  </h2>
+                  <p className="text-gray-600 max-w-md">
+                    Discover a wide range of properties perfect for your next
+                    getaway. From cozy cabins to luxurious villas, find your
+                    ideal vacation home.
+                  </p>
+                </div>
+                <Link href="/listings" passHref>
+                  <Button size="lg" className="group">
+                    <Home className="mr-2 h-4 w-4" />
+                    View all listings
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
           </div>
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 flex justify-center">
@@ -226,7 +251,7 @@ export default function VacationRentalsLanding() {
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t justify-center">
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          © 2024 VacayStay. All rights reserved.
+          © 2024 Stay. All rights reserved.
         </p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
